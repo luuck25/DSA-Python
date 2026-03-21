@@ -1,0 +1,3 @@
+add docstring and logic in detail for this program
+
+space and time complexity

@@ -1,0 +1,32 @@
+
+
+-------
+
+Java has ||
+
+Python has english words  or , and 
+
+----------
+
+Java Has null, python has None
+
+-----------------
+
+Java has true , false
+
+Python has True, False with T and F capital
+
+---------------
+
+!= Null == Null
+
+!= None  == None
+
+better to use is not None, is None
+-------------------------
+
+for i in range (len(arr))
+
+default it starts from 0 and it is length of array - 1
+range excludes last index by default
+
