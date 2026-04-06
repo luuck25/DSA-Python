@@ -93,7 +93,22 @@ class Solution:
 
         # Each entry in the heap = one room still in use
         # So the heap size = total rooms needed
-        return len(min_heap)        
+        return len(min_heap)
+
+    # ---- Clean version (no comments) ----
+    def minMeetingRooms_clean(self, intervals: List[Interval]) -> int:
+        if not intervals:
+            return 0
+
+        intervals.sort(key=lambda x: x.start)
+        min_heap = []
+
+        for interval in intervals:
+            if min_heap and min_heap[0] <= interval.start:
+                heapq.heappop(min_heap)
+            heapq.heappush(min_heap, interval.end)
+
+        return len(min_heap)
                 
 
 

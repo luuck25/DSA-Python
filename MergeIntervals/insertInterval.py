@@ -61,6 +61,24 @@ class Solution:
         # It's always valid and needs to be added to the result
         result.append(newInterval)
 
+        return result
+
+    # ---- Clean version (no comments) ----
+    def insert_clean(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
+        result = []
+
+        for interval in intervals:
+            if newInterval[0] > interval[1]:
+                result.append(interval)
+            elif newInterval[1] < interval[0]:
+                result.append(newInterval)
+                newInterval = interval
+            else:
+                newInterval[0] = min(interval[0], newInterval[0])
+                newInterval[1] = max(interval[1], newInterval[1])
+
+        result.append(newInterval)
+
         return result             
 
 

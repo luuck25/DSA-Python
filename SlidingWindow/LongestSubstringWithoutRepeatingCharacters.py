@@ -17,3 +17,13 @@ class Solution:
             max_len = max((window_end - window_start) + 1, max_len)
 
         return max_len
+    
+
+    """
+    
+    🔥 Easy memory trick
+
+👉 If counting elements → +1
+👉 If measuring gap/distance → no +1
+    
+    """

@@ -75,6 +75,24 @@ class Solution:
                 # No overlap → keep this interval, update prev_end
                 prev_end = end
 
+        return count
+
+    # ---- Clean version (no comments) ----
+    def eraseOverlapIntervals_clean(self, intervals: List[List[int]]) -> int:
+        if not intervals:
+            return 0
+
+        intervals.sort(key=lambda x: x[1])
+        prev_end = intervals[0][1]
+        count = 0
+
+        for i in range(1, len(intervals)):
+            start, end = intervals[i]
+            if prev_end > start:
+                count += 1
+            else:
+                prev_end = end
+
         return count        
 
 

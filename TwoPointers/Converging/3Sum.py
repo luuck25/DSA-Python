@@ -41,3 +41,31 @@ class Solution:
 
         return result
         
+
+        nums = [-1, -1, 0, 0, 1, 1]
+
+
+"""
+
+nums = [-1, -1, -1, 0, 1, 2]
+        i=0  i=1  i=2
+
+i=0: Captain is -1     → "OK, go find your team!"  ✅
+i=1: Captain is -1     → "Wait, you're the SAME captain as before!"
+                          "Your team will be the same. SIT DOWN." ❌ skip
+i=2: Captain is -1     → "SAME captain again! SIT DOWN." ❌ skip
+i=3: Captain is 0      → "New captain! Go find your team!" ✅
+
+SKIP #1 — Before even searching:
+"Is this captain (-1) the same as the last captain? Skip!"
+  [-1, -1, ...]
+   i=0  i=1 ← SKIP (same as i=0)
+
+SKIP 2 and 3    - AFTER finding a match
+
+Analogy: You're at a buffet. You picked rice for your plate. The next 3 containers also have rice. 
+You skip past ALL of them to find something different.
+"""
+
+
+
