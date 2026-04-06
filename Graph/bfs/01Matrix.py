@@ -1,4 +1,5 @@
 from collections import deque
+from typing import List
 
 # https://www.youtube.com/watch?v=hIvMZFqjs_A
 
@@ -18,6 +19,8 @@ class Solution:
                     mat[row][col] = '#'
 
         while queue:
+
+            # dont need for loop as results are stored directly in grid
 
             r,c = queue.popleft()  
 

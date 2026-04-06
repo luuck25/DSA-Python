@@ -39,25 +39,6 @@ class Solution:
         
         If there's no cycle, fast pointer will reach the end (None).
         
-        Visual Example (with cycle):
-        ----------------------------
-        Initial:  1 -> 2 -> 3 -> 4 -> 5
-                  S,F          |     |
-                               +--<--+
-        
-        Step 1:   1 -> 2 -> 3 -> 4 -> 5
-                       S    F        |
-                               +--<--+
-        
-        Step 2:   1 -> 2 -> 3 -> 4 -> 5
-                            S         F
-                               +--<--+
-        
-        Step 3:   1 -> 2 -> 3 -> 4 -> 5
-                            F    S    |
-                               +--<--+
-        
-        Step 4:   S == F -> CYCLE DETECTED!
         
         Why This Works:
         ---------------

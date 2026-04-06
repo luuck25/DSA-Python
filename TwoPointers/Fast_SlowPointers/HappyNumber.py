@@ -38,35 +38,6 @@ class Solution:
         - Slow computes sum once per step
         - Fast computes sum twice per step
         
-        Visual Example (n = 19, Happy):
-        -------------------------------
-        slow: 19 -> 82 -> 68 -> 100 -> 1
-        fast: 19 -> 68 -> 1
-        
-        Fast reaches 1 -> HAPPY!
-        
-        Visual Example (n = 2, Not Happy):
-        ----------------------------------
-        Sequence: 2 -> 4 -> 16 -> 37 -> 58 -> 89 -> 145 -> 42 -> 20 -> 4 (cycle!)
-                       ^                                              |
-                       +-------------------<--------------------------+
-        
-        slow: 2 -> 4 -> 16 -> 37 -> 58 -> 89 ...
-        fast: 2 -> 16 -> 58 -> 145 -> 20 -> 16 ...
-        
-        Eventually slow == fast (in cycle) -> NOT HAPPY!
-        
-        Why This Works:
-        ---------------
-        - If happy: sequence reaches 1, stays at 1 (1² = 1)
-        - If not happy: sequence must eventually cycle (finite possible values)
-        - Fast pointer either reaches 1 first, or catches slow in cycle
-        
-        Args:
-            n: A positive integer to check
-            
-        Returns:
-            True if n is a happy number, False otherwise
             
         Time Complexity: O(log n)
             - Each number has at most log₁₀(n) digits
