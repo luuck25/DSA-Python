@@ -1,5 +1,5 @@
 """
-Squares of a Sorted Array — Plain English Walkthrough
+Squares of a Sorted Array (LeetCode #977) — Plain English Walkthrough
 ======================================================
 Problem:
     Given a sorted array (may have negatives), return an array of
@@ -28,7 +28,7 @@ Key Insight — Two Pointers from both ends:
     ...and so on, filling result from right to left.
 
 Time:  O(n) — single pass with two pointers
-Space: O(n) — result array
+Space: O(1) — just pointers (result array not counted, it's required output)
 """
 
 from typing import List

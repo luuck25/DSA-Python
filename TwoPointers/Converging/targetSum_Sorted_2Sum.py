@@ -1,5 +1,5 @@
 """
-Problem: Target Sum Pair in Sorted Array
+Problem: Target Sum Pair in Sorted Array (LeetCode #167 — Two Sum II)
 -----------------------------------------
 Given an array of numbers sorted in ascending order and a target sum,
 find a pair in the array whose sum is equal to the given target.
