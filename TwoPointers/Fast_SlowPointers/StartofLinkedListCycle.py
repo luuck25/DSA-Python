@@ -56,34 +56,6 @@ class Solution:
         So if we move one pointer from head and another from meeting point
         at the same speed, they will meet at the cycle start!
         
-        Visual Example:
-        ---------------
-        List: 1 -> 2 -> 3 -> 4 -> 5
-                   ^              |
-                   +------<-------+
-        
-        L = 1 (head to cycle start, node 2)
-        C = 4 (cycle length: 2 -> 3 -> 4 -> 5 -> 2)
-        
-        Phase 1 - Find meeting point:
-        -----------------------------
-        Step 0: S=1, F=1
-        Step 1: S=2, F=3
-        Step 2: S=3, F=5
-        Step 3: S=4, F=3 (fast went 5->2->3)
-        Step 4: S=5, F=5 -> MEET!
-        
-        Phase 2 - Find cycle start:
-        ---------------------------
-        Move one pointer from head, one from meeting point:
-        Step 0: ptr1=1, ptr2=5
-        Step 1: ptr1=2, ptr2=2 -> MEET at cycle start!
-        
-        Args:
-            head: Head node of the linked list
-            
-        Returns:
-            Node where cycle begins, or None if no cycle
             
         Time Complexity: O(n)
             - Phase 1: O(n) to detect cycle

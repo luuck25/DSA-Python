@@ -30,6 +30,16 @@ class Solution:
 
         res = [[0] * row for _ in range(col)]  # new matrix: col × row
 
+        """
+        res = [[0] * row for _ in range(col)]
+               [0] * 2   → [0, 0]         ← each row has 2 elements
+               range(3)  → 3 rows
+
+        res = [[0, 0],
+            [0, 0],
+            [0, 0]]    ← 3×2 matrix, ready to fill
+        """
+
         for i in range(row):
             for j in range(col):
                 res[j][i] = matrix[i][j]  # flip row↔col

@@ -126,6 +126,32 @@ class Solution:
                 
         return max_sum
 
+    def maximumSubarraySum_self(self, nums: List[int], k: int) -> int:
+        elements = set()
+        left = 0
+        result = 0
+        curr_sum = 0
+
+        for right in range(len(nums)):
+            while nums[right] in elements:
+                curr_sum -= nums[left]
+                elements.remove(nums[left])
+                left += 1
+
+            elements.add(nums[right])
+
+            if len(elements) > k:
+                curr_sum -= nums[left]
+                elements.remove(nums[left])
+                left += 1
+
+            curr_sum += nums[right]
+
+            if len(elements) == k:
+                result = max(result, curr_sum)
+
+        return result
+
 
 # Test the function
 sol = Solution()
@@ -133,8 +159,4 @@ print(sol.maximumSubarraySum([1, 5, 4, 2, 9, 9, 9], 3))
 # Output: 15
 
 print(sol.maximumSubarraySum([4, 4, 4], 3))
-# Output: 0        
-
-
-        
-    
+# Output: 0       
