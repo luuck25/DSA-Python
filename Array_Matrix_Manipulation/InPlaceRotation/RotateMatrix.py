@@ -108,13 +108,22 @@ Each layer of size n has n-1 swaps (corners are shared):
                ↑  ↑  ↑  ✗  ← 4 is handled by the right edge
                3 swaps for 4-element layer
 
-The 4 swap lines mapped to directions:
-----------------------------------------
+The 4 swap lines — a chain where each slot is safe to overwrite:
+-----------------------------------------------------------------
+    temp = ↖ (save before overwriting)
+
+    ↖ gets ↙'s value     (↖ safe — we saved it)
+    ↙ gets ↘'s value     (↙ safe — its value already moved to ↖)
+    ↘ gets ↗'s value     (↘ safe — its value already moved to ↙)
+    ↗ gets temp          (chain complete!)
+
+In code:
     topLeft = matrix[top][left + i]                     # save ↖
     matrix[top][left + i]     = matrix[bottom - i][left]    # ↙ → ↖
     matrix[bottom - i][left]  = matrix[bottom][right - i]   # ↘ → ↙
     matrix[bottom][right - i] = matrix[top + i][right]      # ↗ → ↘
-    matrix[top + i][right]    = topLeft                      # ↖ → ↗ (saved)
+    matrix[top + i][right]    = topLeft                      # temp → ↗
 
-Assignments go counter-clockwise so values end up clockwise.
+All 4 values move CLOCKWISE. The chain order ensures no value is
+overwritten before it's been moved to its new position.
 """

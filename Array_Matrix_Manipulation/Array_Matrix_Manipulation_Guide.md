@@ -34,7 +34,7 @@
 | # | Problem | LeetCode | Time | Space | Approach | ⚠️ Special Attention |
 |---|---------|----------|------|-------|----------|----------------------|
 | 1 | **Rotate Array** | [#189](https://leetcode.com/problems/rotate-array/) | O(n) | O(1) | 3 reverses: reverse whole → reverse first k → reverse rest. `k = k % n` first. | Same trick as Reverse Words. `k % n` handles k > array length. |
-| 2 | **Rotate Image (Matrix 90°)** | [#48](https://leetcode.com/problems/rotate-image/) | O(n²) | O(1) | Layer by layer, outside → inside. 4-way cycle swap per position. `range(right - left)` swaps per layer. | Assignments go **counter-clockwise** so values end up **clockwise**. `n-1` swaps per layer (corners shared). |
+| 2 | **Rotate Image (Matrix 90°)** | [#48](https://leetcode.com/problems/rotate-image/) | O(n²) | O(1) | Layer by layer, outside → inside. 4-way cycle swap per position. `range(right - left)` swaps per layer. | Save ↖ to temp, then chain: ↖←↙←↘←↗←temp. Each slot is safe to overwrite because its value already moved. `n-1` swaps per layer (corners shared). |
 | 3 | **Transpose Matrix** | [#867](https://leetcode.com/problems/transpose-matrix/) | O(m × n) | O(m × n) / O(1)* | General: new `col × row` matrix, `res[j][i] = matrix[i][j]`. Square in-place: swap upper triangle only (`j = i+1`). | *In-place only works for **square** matrices. `j` starts at `i+1` to avoid double swap. Don't use `[[0]*row]*col` — all rows share same reference. |
 
 ---
