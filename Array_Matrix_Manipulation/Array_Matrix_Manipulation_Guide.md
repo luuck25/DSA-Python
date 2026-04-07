@@ -74,6 +74,9 @@
 
 # Array & Matrix Manipulation — Set Zero / State Encoding Pattern
 
+<img width="787" height="450" alt="image" src="https://github.com/user-attachments/assets/f415a52c-c084-4503-be4c-1620232ad973" />
+
+
 > **Core idea:** Mark cells that need to change using in-place encoding (flags, temp states) so you can update simultaneously without extra space.
 
 ---
