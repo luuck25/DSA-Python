@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plus One - Algorithm Infographic</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Fira+Code:wght@400;500&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: #faf8f0;
+    background-image: radial-gradient(#e0ddd0 1px, transparent 1px);
+    background-size: 18px 18px;
+    padding: 18px 24px;
+    color: #333;
+    width: 960px;
+    margin: 0 auto;
+  }
+
+  /* ---- Header ---- */
+  .header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  .header h1 {
+    font-size: 1.45rem; font-weight: 800; color: #2c3e50;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .difficulty {
+    background: #fff3cd; border: 2px solid #f0c040; border-radius: 14px;
+    padding: 3px 14px; font-weight: 700; font-size: 0.75rem; color: #856404;
+  }
+
+  /* ---- Top Row: Input + Steps + Output ---- */
+  .top-row {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 12px;
+  }
+  .io-box {
+    border-radius: 10px; padding: 10px 12px; text-align: center; min-width: 100px;
+  }
+  .io-box.input { background: #e3f2fd; border: 2px solid #90caf9; }
+  .io-box.output { background: #f3e5f5; border: 2px solid #ce93d8; }
+  .io-box h4 { font-size: 0.65rem; margin-bottom: 5px; color: #555; font-weight: 700; }
+  .io-label { font-size: 0.58rem; color: #888; margin-top: 3px; }
+  .io-arrow { font-size: 1.1rem; color: #999; }
+
+  /* ---- Array Cells ---- */
+  .array-vis { display: flex; justify-content: center; gap: 2px; margin: 3px 0; }
+  .cell {
+    width: 24px; height: 24px; display: flex; align-items: center; justify-content: center;
+    border: 1.5px solid #555; border-radius: 4px;
+    font-family: 'Fira Code', monospace; font-weight: 700; font-size: 0.72rem; background: #fff;
+  }
+  .cell.highlight { background: #fff9c4; border-color: #f9a825; }
+  .cell.changed { background: #c8e6c9; border-color: #2e7d32; color: #2e7d32; }
+  .cell.carry { background: #ffcdd2; border-color: #e53935; color: #c62828; }
+  .cell.new-cell { background: #bbdefb; border-color: #1565c0; color: #1565c0; }
+
+  /* ---- Steps Section ---- */
+  .steps-section {
+    background: #e8f5e9; border: 2px solid #a5d6a7; border-radius: 10px;
+    padding: 8px 10px; flex: 1;
+  }
+  .steps-section h2 { text-align: center; font-size: 0.8rem; color: #2e7d32; margin-bottom: 8px; }
+  .steps-flow { display: flex; align-items: flex-start; gap: 6px; justify-content: center; }
+  .step-card {
+    background: #fff; border: 1.5px solid #81c784; border-radius: 8px;
+    padding: 7px 8px; min-width: 130px; max-width: 150px; text-align: center;
+  }
+  .step-card h3 {
+    font-size: 0.6rem; color: #2e7d32; margin-bottom: 5px;
+    background: #c8e6c9; border-radius: 5px; padding: 2px 5px;
+  }
+  .step-card p { font-size: 0.56rem; color: #555; line-height: 1.3; }
+  .arrow { font-size: 1rem; color: #66bb6a; padding-top: 20px; }
+  .pointer { font-size: 0.52rem; color: #e65100; font-weight: 700; margin-top: 1px; }
+  .flag {
+    display: inline-block; background: #fff9c4; border: 1px dashed #f9a825;
+    border-radius: 4px; padding: 1px 5px; font-size: 0.5rem; font-weight: 600;
+    color: #f57f17; margin-top: 3px;
+  }
+
+  /* ---- Main Content Grid ---- */
+  .content-grid {
+    display: grid; grid-template-columns: 1fr 200px; gap: 12px;
+  }
+
+  /* ---- Left Column ---- */
+  .left-col { display: flex; flex-direction: column; gap: 10px; }
+
+  /* ---- Walkthrough ---- */
+  .walkthrough {
+    background: #fce4ec; border: 2px solid #f48fb1; border-radius: 10px; padding: 8px 10px;
+  }
+  .walkthrough h3 { font-size: 0.7rem; color: #c2185b; margin-bottom: 6px; text-align: center; }
+  .walk-steps { display: flex; gap: 8px; justify-content: center; align-items: center; }
+  .walk-step {
+    background: #fff; border: 1.5px solid #f48fb1; border-radius: 7px;
+    padding: 6px 8px; text-align: center;
+  }
+  .walk-step .label { font-size: 0.55rem; color: #c2185b; font-weight: 700; margin-bottom: 3px; }
+  .walk-step .desc { font-size: 0.5rem; color: #666; margin-top: 2px; }
+  .walk-arrow { font-size: 1rem; color: #e91e63; }
+
+  /* ---- Bottom Row ---- */
+  .bottom-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+  /* ---- Code ---- */
+  .code-section {
+    background: #fffde7; border: 2px solid #f0e68c; border-radius: 10px; padding: 8px 10px;
+  }
+  .code-section h3 { font-size: 0.7rem; color: #827717; margin-bottom: 6px; }
+  .code-block {
+    font-family: 'Fira Code', monospace; font-size: 0.58rem;
+    background: #fffef5; border: 1px solid #e6e0a0; border-radius: 5px;
+    padding: 6px 8px; line-height: 1.55; white-space: pre;
+  }
+  .code-block .kw { color: #7b1fa2; font-weight: 600; }
+  .code-block .fn { color: #1565c0; }
+  .code-block .cm { color: #8a8a5c; }
+  .code-block .num { color: #e65100; }
+
+  /* ---- Edge Cases ---- */
+  .edge-cases {
+    background: #fff8e1; border: 2px solid #ffe082; border-radius: 10px; padding: 8px 10px;
+  }
+  .edge-cases h3 { font-size: 0.7rem; color: #f57f17; margin-bottom: 5px; }
+  .ec-item { display: flex; align-items: center; gap: 5px; margin: 3px 0; font-size: 0.58rem; }
+  .ec-label {
+    background: #fff3e0; border: 1px solid #ffcc80; border-radius: 4px;
+    padding: 1px 6px; font-weight: 700; font-family: 'Fira Code', monospace;
+    font-size: 0.56rem; white-space: nowrap;
+  }
+  .ec-result { font-family: 'Fira Code', monospace; font-weight: 600; color: #2e7d32; font-size: 0.56rem; }
+  .ec-note { font-size: 0.5rem; color: #999; }
+
+  /* ---- Side Panel ---- */
+  .side-panel { display: flex; flex-direction: column; gap: 8px; }
+  .info-card { border-radius: 10px; padding: 8px 10px; border: 2px solid; }
+  .info-card h3 { font-size: 0.72rem; margin-bottom: 4px; font-weight: 700; }
+  .info-card ul { list-style: none; padding: 0; }
+  .info-card li {
+    font-size: 0.58rem; line-height: 1.45; padding-left: 10px; position: relative;
+  }
+  .info-card li::before {
+    content: '•'; position: absolute; left: 0; color: #888; font-weight: 700;
+  }
+
+  .when-to-use { background: #e8f5e9; border-color: #81c784; }
+  .when-to-use h3 { color: #2e7d32; }
+  .complexity { background: #fff3e0; border-color: #ffb74d; }
+  .complexity h3 { color: #e65100; }
+  .metric { display: flex; align-items: center; gap: 5px; margin: 3px 0; font-size: 0.6rem; }
+  .metric .icon { font-size: 0.85rem; }
+  .metric .sub { font-size: 0.52rem; color: #888; }
+  .key-insight { background: #e3f2fd; border-color: #90caf9; }
+  .key-insight h3 { color: #1565c0; }
+  .related { background: #f5f5f5; border-color: #bdbdbd; }
+  .related h3 { color: #555; }
+</style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <div class="header">
+    <h1>➕ Plus One (Carry Propagation)</h1>
+    <span class="difficulty">Difficulty: <span style="color:#e67e22;font-weight:800">Easy</span></span>
+  </div>
+
+  <!-- TOP ROW: Input → Steps → Output -->
+  <div class="top-row">
+    <div class="io-box input">
+      <h4>Input: Digit Array</h4>
+      <div class="array-vis">
+        <div class="cell">1</div><div class="cell">2</div><div class="cell">9</div>
+      </div>
+      <div class="io-label">Represents <b>129</b></div>
+    </div>
+
+    <div class="io-arrow">⟶</div>
+
+    <div class="steps-section">
+      <h2>Algorithm Steps</h2>
+      <div class="steps-flow">
+        <div class="step-card">
+          <h3>Step 1: Check Last Digit</h3>
+          <div class="array-vis">
+            <div class="cell">1</div><div class="cell">2</div><div class="cell highlight">9</div>
+          </div>
+          <div class="pointer" style="text-align:right;padding-right:4px;">▲ i=2</div>
+          <p>digit == 9 → set to 0</p>
+          <div class="flag">carry propagates left</div>
+        </div>
+        <div class="arrow">➜</div>
+        <div class="step-card">
+          <h3>Step 2: Propagate Carry</h3>
+          <div class="array-vis">
+            <div class="cell">1</div><div class="cell highlight">2</div><div class="cell carry">0</div>
+          </div>
+          <div class="pointer">▲ i=1</div>
+          <p>digit &lt; 9 → increment & <b>return</b></p>
+          <div class="flag">no more carry!</div>
+        </div>
+        <div class="arrow">➜</div>
+        <div class="step-card">
+          <h3>Step 3: Return Result</h3>
+          <div class="array-vis">
+            <div class="cell changed">1</div><div class="cell changed">3</div><div class="cell changed">0</div>
+          </div>
+          <p style="margin-top:4px;">Done ✅</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="io-arrow">⟶</div>
+
+    <div class="io-box output">
+      <h4>Output: Modified Array</h4>
+      <div class="array-vis">
+        <div class="cell changed">1</div><div class="cell changed">3</div><div class="cell changed">0</div>
+      </div>
+      <div class="io-label">Represents <b>130</b></div>
+    </div>
+  </div>
+
+  <!-- CONTENT GRID -->
+  <div class="content-grid">
+    <div class="left-col">
+
+      <!-- All-9s Walkthrough -->
+      <div class="walkthrough">
+        <h3>🔄 Special Case: All 9s (Full Carry)</h3>
+        <div class="walk-steps">
+          <div class="walk-step">
+            <div class="label">Input</div>
+            <div class="array-vis">
+              <div class="cell">9</div><div class="cell">9</div><div class="cell">9</div>
+            </div>
+            <div class="desc"><b>999</b></div>
+          </div>
+          <div class="walk-arrow">➜</div>
+          <div class="walk-step">
+            <div class="label">After Loop</div>
+            <div class="array-vis">
+              <div class="cell carry">0</div><div class="cell carry">0</div><div class="cell carry">0</div>
+            </div>
+            <div class="desc">All 9s → 0</div>
+          </div>
+          <div class="walk-arrow">➜</div>
+          <div class="walk-step">
+            <div class="label">Prepend 1</div>
+            <div class="array-vis">
+              <div class="cell new-cell">1</div><div class="cell changed">0</div><div class="cell changed">0</div><div class="cell changed">0</div>
+            </div>
+            <div class="desc"><b>[1] + digits</b></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom: Code + Edge Cases -->
+      <div class="bottom-row">
+        <div class="code-section">
+          <h3>💻 Example Code (Python)</h3>
+          <div class="code-block"><span class="kw">def</span> <span class="fn">plusOne</span>(digits):
+  <span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="fn">len</span>(digits)-<span class="num">1</span>,-<span class="num">1</span>,-<span class="num">1</span>):
+    <span class="kw">if</span> digits[i] &lt; <span class="num">9</span>:
+      digits[i] += <span class="num">1</span>   <span class="cm"># done</span>
+      <span class="kw">return</span> digits
+    digits[i] = <span class="num">0</span>     <span class="cm"># carry</span>
+  <span class="kw">return</span> [<span class="num">1</span>] + digits <span class="cm"># all 9s</span></div>
+        </div>
+        <div class="edge-cases">
+          <h3>⚠️ Edge Cases</h3>
+          <div class="ec-item"><span class="ec-label">[0]</span> → <span class="ec-result">[1]</span> <span class="ec-note">single zero</span></div>
+          <div class="ec-item"><span class="ec-label">[9]</span> → <span class="ec-result">[1,0]</span> <span class="ec-note">single nine</span></div>
+          <div class="ec-item"><span class="ec-label">[1,0,0]</span> → <span class="ec-result">[1,0,1]</span> <span class="ec-note">no carry</span></div>
+          <div class="ec-item"><span class="ec-label">[9,9,9]</span> → <span class="ec-result">[1,0,0,0]</span> <span class="ec-note">full carry</span></div>
+          <div class="ec-item"><span class="ec-label">[2,4,9,9]</span> → <span class="ec-result">[2,5,0,0]</span> <span class="ec-note">partial</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT SIDE PANEL -->
+    <div class="side-panel">
+      <div class="info-card when-to-use">
+        <h3>🎯 When to Use</h3>
+        <ul>
+          <li>Increment a large integer as digit array.</li>
+          <li>Carry propagation right → left.</li>
+          <li>Avoid integer overflow with arrays.</li>
+        </ul>
+      </div>
+      <div class="info-card complexity">
+        <h3>📊 Time/Space Complexity</h3>
+        <div class="metric">
+          <span class="icon">⏱️</span>
+          <span><b>Time: O(N)</b><br><span class="sub">Single right-to-left pass</span></span>
+        </div>
+        <div class="metric">
+          <span class="icon">💾</span>
+          <span><b>Space: O(1)</b><br><span class="sub">In-place (O(N) all-9s)</span></span>
+        </div>
+      </div>
+      <div class="info-card key-insight">
+        <h3>💡 Key Insight</h3>
+        <ul>
+          <li>Only <b>9</b>s cause carry.</li>
+          <li>digit &lt; 9 → increment & <b>return immediately</b>.</li>
+          <li>Loop ends → all 9s → prepend 1.</li>
+        </ul>
+      </div>
+      <div class="info-card related">
+        <h3>🔗 Related Problems</h3>
+        <ul>
+          <li>Add to Array-Form of Integer</li>
+          <li>Add Binary</li>
+          <li>Add Two Numbers (Linked List)</li>
+          <li>Multiply Strings</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
