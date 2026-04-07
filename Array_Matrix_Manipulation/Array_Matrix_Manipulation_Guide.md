@@ -68,3 +68,28 @@
 - Two **already sorted** arrays need to be combined
 - One array has **extra space** at the end (buffer)
 - Fill from the **back** to avoid overwriting unprocessed elements
+
+---
+---
+
+# Array & Matrix Manipulation — Set Zero / State Encoding Pattern
+
+> **Core idea:** Mark cells that need to change using in-place encoding (flags, temp states) so you can update simultaneously without extra space.
+
+---
+
+## Problems
+
+| # | Problem | LeetCode | Time | Space | Approach | ⚠️ Special Attention |
+|---|---------|----------|------|-------|----------|----------------------|
+| 1 | **Set Matrix Zeroes** | [#73](https://leetcode.com/problems/set-matrix-zeroes/) | O(m × n) | O(1) | Use first row/col as markers. Save flags for whether first row/col originally had 0s. Scan rest → mark → zero out → handle first row/col last. | Must check `col == n-1` **before** `row == 0` at corners. Process first row/col **last** or markers get corrupted. |
+| 2 | **Game of Life** | [#289](https://leetcode.com/problems/game-of-life/) | O(m × n) | O(1) | Encode old+new state in same cell: 0=dead→dead, 1=alive→alive, 2=alive→dead, 3=dead→alive. `% 2` decodes at the end. | When counting live neighbors, check `board[nr][nc] in (1, 2)` — both mean "was alive". Not just `== 1`. |
+| 3 | **Diagonal Traverse** | [#498](https://leetcode.com/problems/diagonal-traverse/) | O(m × n) | O(1)* | Toggle between ↗ and ↙. At boundaries flip direction: going up → check right wall then top; going down → check bottom then left wall. | At **top-right corner** both `col==n-1` and `row==0` are true. Must check `col==n-1` **first** → correct move is down, not right. Same at bottom-left. |
+
+---
+
+## When to Use Set Zero / State Encoding
+
+- Need to **update all cells simultaneously** but can only modify in-place
+- Use **temp states** (2, 3, -1) to encode "was X, now Y" → decode with `% 2` or similar
+- Use **first row/col as markers** when you need O(1) space for flag storage
