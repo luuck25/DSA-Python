@@ -57,6 +57,7 @@
 > **Core idea:** Merge two sorted structures by comparing from the **back** (or front) using pointers, filling the result without extra space.
 
 ---
+<img width="777" height="438" alt="image" src="https://github.com/user-attachments/assets/96d4b5bb-2e93-4592-9b85-f1cff6fbc843" />
 
 ## Problems
 
