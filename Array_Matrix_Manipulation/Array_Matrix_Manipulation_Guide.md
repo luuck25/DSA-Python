@@ -2,7 +2,8 @@
 
 > **Core idea:** Simulate arithmetic on arrays digit by digit, processing right to left. Handle carry propagation manually.
 
-<img width="854" height="741" alt="image" src="https://github.com/user-attachments/assets/931909bd-eedf-4a66-b19f-7ffa0cfd6151" />
+<img width="640" height="425" alt="image" src="https://github.com/user-attachments/assets/7e12938b-795b-4f43-bcb0-b98d7e3189b3" />
+
 
 ---
 
