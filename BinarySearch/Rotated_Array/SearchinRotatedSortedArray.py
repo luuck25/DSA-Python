@@ -17,6 +17,7 @@ Approach:
 1. Use binary search with modification to handle rotation
 2. At each mid point, determine which half is properly sorted
 3. If nums[mid] >= nums[left], left half is sorted:
+   - We use >= (not >) to handle edge case when left == mid (single element)
    - If target is in range [nums[left], nums[mid]), search left
    - Otherwise, search right
 4. If right half is sorted:
@@ -80,6 +81,9 @@ Pseudocode:
       
       IF element at middle >= element at left:
          - Left half is sorted (properly ordered)
+         - Note: We use >= (not >) to handle edge case when left == mid
+           (When search space is small and mid points to same index as left,
+            that single element is trivially sorted)
          
          IF target is within left half's range (between left and middle):
             - We can safely conclude target is in sorted left half
