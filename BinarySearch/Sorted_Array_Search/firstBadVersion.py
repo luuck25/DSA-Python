@@ -40,3 +40,22 @@ class Solution:
                 left = mid + 1
 
         return left
+
+
+"""
+Pseudocode:
+-----------
+function firstBadVersion(n):
+    left = 1
+    right = n
+    
+    while left <= right:
+        mid = (left + right) / 2
+        
+        if isBadVersion(mid):
+            right = mid - 1  // First bad is at mid or earlier
+        else:
+            left = mid + 1   // First bad is after mid
+    
+    return left  // First bad version
+"""

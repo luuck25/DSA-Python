@@ -44,8 +44,31 @@ class Solution:
             else:
                 right = mid - 1    
 
-        return False            
+        return False
 
-        
 
+"""
+Pseudocode:
+-----------
+function searchMatrix(matrix, target):
+    m = number of rows
+    n = number of columns
+    left = 0
+    right = m * n - 1
+    
+    while left <= right:
+        mid = (left + right) / 2
         
+        // Convert 1D index to 2D coordinates
+        row = mid / n
+        col = mid % n
+        
+        if matrix[row][col] == target:
+            return True
+        elif matrix[row][col] < target:
+            left = mid + 1
+        else:
+            right = mid - 1
+    
+    return False
+"""

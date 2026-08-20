@@ -42,4 +42,25 @@ class Solution:
                 left = mid + 1
  
 
-        return left                  
+        return left
+
+
+"""
+Pseudocode:
+-----------
+function searchInsert(nums, target):
+    left = 0
+    right = length(nums) - 1
+    
+    while left <= right:
+        mid = (left + right) / 2
+        
+        if nums[mid] == target:
+            return mid  // Found target
+        elif nums[mid] > target:
+            right = mid - 1  // Search left
+        else:
+            left = mid + 1   // Search right
+    
+    return left  // Insertion position
+"""

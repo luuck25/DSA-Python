@@ -43,3 +43,27 @@ class Solution:
                 right = mid
 
         return nums[left]
+
+
+"""
+Pseudocode:
+-----------
+function singleNonDuplicate(nums):
+    left = 0
+    right = length(nums) - 1
+    
+    while left < right:
+        mid = (left + right) / 2
+        
+        // Ensure mid is at even index
+        if mid is odd:
+            mid = mid - 1
+        
+        // Check if pair starts at mid
+        if nums[mid] == nums[mid + 1]:
+            left = mid + 2  // Single element is on right
+        else:
+            right = mid     // Single element is at mid or left
+    
+    return nums[left]  // Single element
+"""

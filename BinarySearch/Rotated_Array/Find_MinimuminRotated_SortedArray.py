@@ -38,5 +38,25 @@ class Solution:
             else:
                 right = mid
 
-        return nums[left]                
+        return nums[left]
+
+
+"""
+Pseudocode:
+-----------
+function findMin(nums):
+    left = 0
+    right = length(nums) - 1
+    
+    while left < right:
+        mid = (left + right) / 2
         
+        if nums[mid] > nums[right]:
+            // Minimum is in right half (after rotation point)
+            left = mid + 1
+        else:
+            // Minimum is at mid or in left half
+            right = mid
+    
+    return nums[left]  // Minimum element
+"""

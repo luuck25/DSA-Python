@@ -39,6 +39,26 @@ class Solution:
                 left = mid + 1
             else:
                 right = mid - 1
-        return left + k            
+        return left + k
 
+
+"""
+Pseudocode:
+-----------
+function findKthPositive(arr, k):
+    left = 0
+    right = length(arr) - 1
     
+    while left <= right:
+        mid = (left + right) / 2
+        
+        // Calculate missing numbers up to index mid
+        missing = arr[mid] - (mid + 1)
+        
+        if missing < k:
+            left = mid + 1  // Need more missing numbers
+        else:
+            right = mid - 1 // Too many missing numbers
+    
+    return left + k  // The kth missing number
+"""
