@@ -4,6 +4,204 @@
 
 ---
 
+# ⚡ Binary Search Templates — Which One to Use?
+
+> **The most confusing part of binary search:** When to use `left <= right` vs `left < right`? When `right = mid` vs `right = mid - 1`? What to return?
+
+## Template 1: Finding Exact Target (Most Common)
+
+```python
+def binary_search(nums, target):
+    left, right = 0, len(nums) - 1
+    
+    while left <= right:  # ← Use <=
+        mid = (left + right) // 2
+        
+        if nums[mid] == target:
+            return mid  # ← Return immediately when found
+        elif nums[mid] < target:
+            left = mid + 1  # ← Exclude mid
+        else:
+            right = mid - 1  # ← Exclude mid
+    
+    return -1  # Target not found
+```
+
+**When to use:**
+- ✅ Finding an **exact value** in the array
+- ✅ Standard "search for target" problems
+- ✅ When you can **return immediately** upon finding the answer
+
+**Why `left <= right`?**
+- We need to check the case when `left == right` (one element left)
+- Loop exits when `left > right` (search space exhausted)
+
+**Why `left = mid + 1` and `right = mid - 1`?**
+- We **exclude mid** because we already checked it
+- Prevents infinite loops
+
+**What to return?**
+- Return `-1` or `left` (insertion position for "search insert position" problems)
+
+---
+
+## Template 2: Finding Boundary (First/Minimum Occurrence)
+
+```python
+def find_first_occurrence(nums, target):
+    left, right = 0, len(nums) - 1
+    
+    while left < right:  # ← Use < (not <=)
+        mid = (left + right) // 2
+        
+        if nums[mid] < target:
+            left = mid + 1  # ← Exclude mid
+        else:
+            right = mid  # ← Include mid (potential answer)
+    
+    return left  # ← Return left (or check if nums[left] == target)
+```
+
+**When to use:**
+- ✅ Finding **first occurrence** (leftmost)
+- ✅ Finding **minimum** in rotated array
+- ✅ Finding **lower bound** (smallest element ≥ target)
+- ✅ "Binary search on answer" problems (minimize)
+
+**Why `left < right`?**
+- Loop exits when `left == right` (converged to answer)
+- We **don't exclude** the mid, so we need `<` to avoid infinite loop
+
+**Why `right = mid` (not `mid - 1`)?**
+- Mid could be the **answer** (first occurrence, minimum, etc.)
+- We want to keep it in the search space
+
+**What to return?**
+- Return `left` (which equals `right` when loop exits)
+- Left is the first/minimum position
+
+**⚠️ Warning:** Never use `left = mid` with `left < right` — causes infinite loop when `left` and `right` are adjacent!
+
+---
+
+## Template 3: Finding Boundary (Last/Maximum Occurrence)
+
+```python
+def find_last_occurrence(nums, target):
+    left, right = 0, len(nums) - 1
+    
+    while left < right:  # ← Use <
+        mid = (left + right + 1) // 2  # ← Round UP to avoid infinite loop
+        
+        if nums[mid] > target:
+            right = mid - 1  # ← Exclude mid
+        else:
+            left = mid  # ← Include mid (potential answer)
+    
+    return left  # ← Return left (or check if nums[left] == target)
+```
+
+**When to use:**
+- ✅ Finding **last occurrence** (rightmost)
+- ✅ Finding **maximum** that satisfies condition
+- ✅ Finding **upper bound** (largest element ≤ target)
+
+**Why `mid = (left + right + 1) // 2`?**
+- When `left = mid`, we must round **UP** to avoid infinite loop
+- Example: `left=3, right=4` → normal mid=3 → `left=mid=3` → infinite loop
+- With +1: `left=3, right=4` → mid=4 → either `left=4` or `right=3` → terminates
+
+**Why `left = mid` (not `mid + 1`)?**
+- Mid could be the **answer** (last occurrence, maximum, etc.)
+- We want to keep it in the search space
+
+**What to return?**
+- Return `left` (which equals `right` when loop exits)
+
+---
+
+## 📊 Template Comparison Table
+
+| Template | Loop Condition | Left Update | Right Update | Mid Calculation | Use Case | Return |
+|----------|---------------|-------------|--------------|-----------------|----------|--------|
+| **Template 1** | `left <= right` | `mid + 1` | `mid - 1` | `(left + right) // 2` | Find exact target | `mid` when found, else `-1` or `left` |
+| **Template 2** | `left < right` | `mid + 1` | `mid` | `(left + right) // 2` | Find first/minimum | `left` |
+| **Template 3** | `left < right` | `mid` | `mid - 1` | `(left + right + 1) // 2` | Find last/maximum | `left` |
+
+---
+
+## 🔍 How to Choose the Right Template?
+
+### Decision Flow:
+
+```
+Do you need to return immediately when target is found?
+├─ YES → Use Template 1 (left <= right, exclude mid from both sides)
+│         Examples: Standard binary search, search insert position
+│
+└─ NO → Need to find boundary/optimize
+    │
+    ├─ Finding FIRST/MINIMUM? → Use Template 2 (left < right, right = mid)
+    │    Examples: First occurrence, find minimum in rotated array,
+    │              minimize maximum (binary search on answer)
+    │
+    └─ Finding LAST/MAXIMUM? → Use Template 3 (left < right, left = mid, mid+1)
+         Examples: Last occurrence, maximize minimum
+
+```
+
+---
+
+## 💡 Quick Rules to Remember
+
+1. **`left <= right`** → Can return immediately → Use `mid + 1` and `mid - 1`
+2. **`left < right`** → Cannot return immediately → One side uses `mid` (includes it)
+3. **`left = mid`** → MUST use `mid = (left + right + 1) // 2` to avoid infinite loop
+4. **`right = mid`** → Can use normal `mid = (left + right) // 2`
+5. **Return `left`** in most cases (equals `right` when `left < right` exits)
+
+---
+
+## 🐛 Common Infinite Loop Cases
+
+| Scenario | Problem | Fix |
+|----------|---------|-----|
+| `while left < right`, `left = mid`, normal mid calc | When `left=3, right=4`, mid=3, stuck! | Use `mid = (left+right+1)//2` |
+| `while left <= right`, `left = mid` or `right = mid` | Never narrows gap properly | Use `left = mid+1` and `right = mid-1` |
+| Both `left = mid` and `right = mid` | Can't narrow search space | At least one must exclude mid (+1 or -1) |
+
+---
+
+## 📝 Example: Why Different Templates?
+
+**Problem:** Find first and last occurrence of 8 in `[5,7,7,8,8,8,10]`
+
+**Finding FIRST (Template 2):**
+```python
+# Use left < right, right = mid
+while left < right:
+    mid = (left + right) // 2
+    if nums[mid] >= target:  # Found or too big
+        right = mid  # Keep mid (might be first)
+    else:
+        left = mid + 1
+return left  # First occurrence
+```
+
+**Finding LAST (Template 3):**
+```python
+# Use left < right, left = mid, round up
+while left < right:
+    mid = (left + right + 1) // 2  # Round up!
+    if nums[mid] <= target:  # Found or too small
+        left = mid  # Keep mid (might be last)
+    else:
+        right = mid - 1
+return left  # Last occurrence
+```
+
+---
+
 # Binary Search — Standard Array Search Pattern
 
 > **Core idea:** Search for a target in a sorted array by comparing with the middle element and eliminating half the search space each iteration.
