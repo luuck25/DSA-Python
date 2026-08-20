@@ -42,21 +42,27 @@ class Solution:
 
 
 """
-Pseudocode:
------------
-function findMin(nums):
-    left = 0
-    right = length(nums) - 1
-    
-    while left < right:
-        mid = (left + right) / 2
-        
-        if nums[mid] > nums[right]:
-            // Minimum is in right half (after rotation point)
-            left = mid + 1
-        else:
-            // Minimum is at mid or in left half
-            right = mid
-    
-    return nums[left]  // Minimum element
+Plain English Pseudocode:
+-------------------------
+1. Initialize two pointers: left at start (index 0) and right at end (last index)
+
+2. While the search space has more than one element (left < right):
+   - Calculate the middle index between left and right
+   
+   - Compare the middle element with the rightmost element:
+     
+     If middle element is GREATER than right element:
+       → The rotation pivot (minimum) is in the right half
+       → Move left pointer to mid + 1 (exclude mid, it can't be minimum)
+     
+     Otherwise (middle element is LESS than right element):
+       → The rotation pivot (minimum) is at mid or in the left half
+       → Move right pointer to mid (include mid, it could be the minimum)
+       → Note: Can't be EQUAL since all elements are unique
+
+3. When left equals right, we've converged on the minimum element
+   Return the element at left pointer
+   
+Note: We compare with nums[right] (not nums[left]) because in a rotated array,
+      the right side tells us if we're in the rotated portion or not.
 """
