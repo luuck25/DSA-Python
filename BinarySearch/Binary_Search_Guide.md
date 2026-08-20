@@ -261,7 +261,7 @@ def binary_search(nums, target):
 
 | # | Problem | LeetCode | Time | Space | Approach | ⚠️ Special Attention |
 |---|---------|----------|------|-------|----------|----------------------|
-| 1 | **Find First and Last Position** | [#34](https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/) | O(log n) | O(1) | Two binary searches: ① Find first: when `nums[mid] == target`, record and search left (`right = mid - 1`). ② Find last: when `nums[mid] == target`, record and search right (`left = mid + 1`). | **Key difference from standard:** Don't return immediately when found — keep searching to find boundary. |
+| 1 | **Find First and Last Position** | [#34](https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/) | O(log n) | O(1) | **Two binary searches:**<br>① Find first: when `nums[mid] == target`, record and search left (`right = mid - 1`).<br>② Find last: when `nums[mid] == target`, record and search right (`left = mid + 1`). | **Key difference from standard:** Don't return immediately when found — keep searching to find boundary. |
 | 2 | **Search for a Range** | Same as #34 | O(log n) | O(1) | Same approach — find leftmost, then find rightmost. | Use a result variable to track the found index before narrowing search. |
 
 ---
