@@ -325,11 +325,32 @@ def find_last(nums, target):
 
 | # | Problem | LeetCode | Time | Space | Approach | ⚠️ Special Attention |
 |---|---------|----------|------|-------|----------|----------------------|
-| 1 | **Search in Rotated Sorted Array** | [#33](https://leetcode.com/problems/search-in-rotated-sorted-array/) | O(log n) | O(1) | At each mid: ① Determine which half is sorted (`nums[mid] >= nums[left]` = left sorted). ② Check if target is in sorted half's range. ③ If yes, search that half. Else search other half. | **Key insight:** At least one half is always properly sorted. Compare `nums[mid]` with `nums[left]` to identify the sorted half. |
+| 1 | **Search in Rotated Sorted Array** | [#33](https://leetcode.com/problems/search-in-rotated-sorted-array/) | O(log n) | O(1) | **Step 1:** Determine which half is sorted (`nums[mid] >= nums[left]` = left sorted). **Step 2:** Check if target is in sorted half's range. **Step 3:** If yes, search that half. Else search other half (which will be re-evaluated on next iteration). | **Why identify sorted half?** Binary search ONLY works on sorted data. We identify the sorted half to use range checking. We never directly search unsorted data - on next iteration, we re-check which half is sorted in the new range! |
 | 2 | **Search in Rotated Sorted Array II** | [#81](https://leetcode.com/problems/search-in-rotated-sorted-array-ii/) | O(log n) avg, O(n) worst | O(1) | Same as #33 but handles **duplicates**. If `nums[left] == nums[mid] == nums[right]`, can't determine sorted half → shrink both ends (`left++`, `right--`). | **Worst case O(n)** when all elements are duplicates. Must handle the ambiguous case specially. |
 | 3 | **Find Minimum in Rotated Sorted Array** | [#153](https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/) | O(log n) | O(1) | Compare `nums[mid]` with `nums[right]`. If `nums[mid] > nums[right]` → minimum is in right half. Else minimum is at mid or left. | **Compare with right, not left.** Minimum is at the rotation pivot. |
 | 4 | **Find Minimum in Rotated Sorted Array II** | [#154](https://leetcode.com/problems/find-minimum-in-rotated-sorted-array-ii/) | O(log n) avg, O(n) worst | O(1) | Same as #153 but if `nums[mid] == nums[right]` → can't determine which side → `right--`. | Duplicates make it ambiguous, must shrink search space carefully. |
 | 5 | **Peak Index in Mountain Array** | [#852](https://leetcode.com/problems/peak-index-in-a-mountain-array/) | O(log n) | O(1) | Mountain = increases then decreases. If `arr[mid] < arr[mid+1]` → peak is right. Else peak is at mid or left. | **Guaranteed one peak.** Compare `mid` with `mid+1` to determine direction. |
+
+---
+
+## Understanding Search in Rotated Array
+
+**Critical Insight:** Binary search requires **sorted data** for comparisons to work correctly. In a rotated sorted array, the entire array is NOT sorted, but **at least one half is ALWAYS sorted**.
+
+### The Algorithm:
+
+1. **Identify which half is sorted** - Compare `nums[mid]` with `nums[left]`
+2. **Use the sorted half's properties** - Only on sorted data can we check if target is in range
+3. **Narrow search space** - Keep the relevant half
+4. **Re-evaluate on next iteration** - The new search space gets checked again for which half is sorted
+
+**Key Point:** We never directly search unsorted data! When we "search the other half," we're just narrowing the space. On the next iteration, we determine which half is sorted AGAIN in the new range.
+
+**Example:** `[4,5,6,7,0,1,2]`, target = 1
+- Iteration 1: Left `[4,5,6,7]` is sorted. Target not there → search right half
+- Iteration 2: New space `[0,1,2]` - now THIS is sorted! Find target easily
+
+We iteratively find sorted portions until we locate the target.
 
 ---
 
@@ -354,17 +375,20 @@ def search_rotated(nums, target):
         if nums[mid] == target:
             return mid
         
-        # Determine which half is sorted
+        # Step 1: Determine which half is sorted
+        # WHY? Binary search only works on sorted data
+        # At least one half is ALWAYS sorted in a rotated array
         if nums[mid] >= nums[left]:  # Left half is sorted
+            # Step 2: Check if target is in the sorted half's range
             if nums[left] <= target < nums[mid]:
                 right = mid - 1  # Target in sorted left half
             else:
-                left = mid + 1   # Target in rotated right half
+                left = mid + 1   # Search right half (re-evaluate on next iteration)
         else:  # Right half is sorted
             if nums[mid] < target <= nums[right]:
                 left = mid + 1   # Target in sorted right half
             else:
-                right = mid - 1  # Target in rotated left half
+                right = mid - 1  # Search left half (re-evaluate on next iteration)
     
     return -1
 ```
