@@ -293,6 +293,10 @@ def binary_search(nums, target):
 
 ## First/Last Occurrence Template
 
+> **Note:** This section shows an alternative approach using `left <= right`. For the preferred `left < right` approach, see [Template 2](#template-2-finding-boundary-firstminimum-occurrence) and [Template 3](#template-3-finding-boundary-lastmaximum-occurrence) above.
+
+### Alternative Approach: Using `left <= right` with result tracking
+
 ```python
 def find_first(nums, target):
     left, right = 0, len(nums) - 1
@@ -328,6 +332,14 @@ def find_last(nums, target):
     
     return result
 ```
+
+**Key differences from Templates 2 & 3:**
+- Uses `left <= right` instead of `left < right`
+- Needs a `result` variable to track the answer
+- Excludes `mid` from both sides (`mid + 1` and `mid - 1`)
+- Simpler to understand if you're already familiar with standard binary search
+
+**Both approaches are valid** - choose based on your preference or team conventions.
 
 ---
 ---
