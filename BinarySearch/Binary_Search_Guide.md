@@ -130,6 +130,23 @@ def find_last_occurrence(nums, target):
 
 ---
 
+## 🎯 Key Insight: Different Invariants
+
+> **Both `left <= right` and `left < right` are valid because they're based on different invariants.**
+
+| | `left <= right` | `left < right` |
+|---|---|---|
+| **Goal** | Eliminate candidates | Isolate candidate |
+| **Final state** | `left > right` | `left == right` |
+| **When condition is true** | At least 1 candidate | At least 2 candidates |
+| **If mid is true** | `right = mid - 1` | `right = mid` |
+
+**Why this matters:**
+- **`left <= right`**: Eliminates `mid` from search space after checking it → allows immediate return → pointers cross when exhausted
+- **`left < right`**: Keeps `mid` as potential answer → narrows to single element → pointers converge when found
+
+---
+
 ## 🔍 How to Choose the Right Template?
 
 ### Decision Flow:
