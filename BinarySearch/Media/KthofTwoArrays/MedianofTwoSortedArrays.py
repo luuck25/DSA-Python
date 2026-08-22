@@ -18,8 +18,17 @@ Approach:
 1. Binary search on the smaller array to find the correct partition
 2. Ensure nums1 is the smaller array (swap if needed)
 3. Binary search on nums1 to find partition point:
+   - Why right = m (not m-1)? We're searching partition positions [0 to m], not element indices [0 to m-1]
+     * partition = 0: take 0 elements (cut before all)
+     * partition = m: take all m elements (cut after all)
+   - Why left <= right? We return immediately when valid partition is found (like Template 1)
    - partition1 divides nums1, partition2 divides nums2
-   - partition1 + partition2 = (m + n + 1) / 2 (half of total elements)
+   - For median, left half must have (m + n + 1) // 2 elements total
+   - Why +1? Handles both even and odd lengths:
+     * Even: (4+1)//2 = 2, left=2, right=2 ✓
+     * Odd: (5+1)//2 = 3, left=3, right=2 ✓ (extra goes to left for median)
+   - partition1 + partition2 = (m + n + 1) // 2
+   - Therefore: partition2 = (m + n + 1) // 2 - partition1
 4. Check if valid partition: left1 <= right2 AND left2 <= right1
 5. If valid:
    - Odd total length: return max(left1, left2)
@@ -72,8 +81,8 @@ class Solution:
 
 
 """
-Pseudocode:
------------
+Pseudocode (English):
+--------------------
 function findMedianSortedArrays(nums1, nums2):
     // Ensure nums1 is the smaller array
     if length(nums1) > length(nums2):
@@ -82,11 +91,11 @@ function findMedianSortedArrays(nums1, nums2):
     m = length(nums1)
     n = length(nums2)
     left = 0
-    right = m
+    right = m  // Not m-1! Partition positions range [0, m], not indices [0, m-1]
     
-    while left <= right:
+    while left <= right:  // Use <= because we return immediately when found
         partition1 = (left + right) / 2
-        partition2 = (m + n + 1) / 2 - partition1
+        partition2 = (m + n + 1) / 2 - partition1  // +1 handles both even/odd
         
         // Get boundary elements (use infinity for edge cases)
         left1 = partition1 == 0 ? -infinity : nums1[partition1 - 1]
