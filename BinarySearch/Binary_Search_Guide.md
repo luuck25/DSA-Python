@@ -233,7 +233,7 @@ return left  # Last occurrence
 | 2 | **Search Insert Position** | [#35](https://leetcode.com/problems/search-insert-position/) | O(log n) | O(1) | Same as binary search, but when loop exits, `left` is the insertion position. | Return `left` at the end — it points to where target should be inserted. |
 | 3 | **First Bad Version** | [#278](https://leetcode.com/problems/first-bad-version/) | O(log n) | O(1) | Binary search on versions [1..n]. If `isBadVersion(mid)` → first bad is at mid or left. Else first bad is right. | Minimize API calls by using binary search. When `isBadVersion(mid)` is True, do `right = mid - 1` (not `right = mid`). |
 | 4 | **Search a 2D Matrix** | [#74](https://leetcode.com/problems/search-a-2d-matrix/) | O(log(m×n)) | O(1) | Treat 2D matrix as flattened 1D array. `row = mid // n`, `col = mid % n`. Standard binary search. | **Index conversion:** 1D → 2D coordinates. Total elements = `m × n`. |
-| 5 | **Sqrt(x)** | [#69](https://leetcode.com/problems/sqrtx/) | O(log n) | O(1) | Binary search on [0..x]. Check if `mid * mid <= x`. Track largest valid `mid`. | Check `mid * mid` instead of `mid` to avoid comparing with `x / mid` (division issues). |
+| 5 | **Single Element in Sorted Array** | [#540](https://leetcode.com/problems/single-element-in-a-sorted-array/) | O(log n) | O(1) | Exploit pair pattern: before single element, pairs start at even indices. Ensure `mid` is even. If `nums[mid] == nums[mid+1]`, search right; else search left. | **Ensure mid is even:** if `mid % 2 == 1`, decrement by 1. Pattern breaks at the single element. |
 
 ---
 

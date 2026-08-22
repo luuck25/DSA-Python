@@ -18,7 +18,9 @@ Approach:
 3. If nums[mid] == target, return mid (target found)
 4. If nums[mid] > target, search left half (right = mid - 1)
 5. If nums[mid] < target, search right half (left = mid + 1)
-6. When loop exits, left pointer is at the insertion position
+6. When loop exits (left > right):
+   - left pointer is at the insertion position
+   - right pointer is at an element smaller than target (or -1 if target is smallest)
 7. Return left as the position where target should be inserted
 
 Time Complexity: O(log n) - Binary search to find target or insertion position
@@ -46,21 +48,23 @@ class Solution:
 
 
 """
-Pseudocode:
------------
-function searchInsert(nums, target):
-    left = 0
-    right = length(nums) - 1
-    
-    while left <= right:
-        mid = (left + right) / 2
-        
-        if nums[mid] == target:
-            return mid  // Found target
-        elif nums[mid] > target:
-            right = mid - 1  // Search left
-        else:
-            left = mid + 1   // Search right
-    
-    return left  // Insertion position
+Pseudocode (English):
+--------------------
+1. Start with two pointers: left at beginning (0) and right at end (last index)
+
+2. While the search space is valid (left hasn't crossed right):
+   a. Find the middle element between left and right
+   b. If middle element equals target:
+      - We found it! Return the middle position
+   c. If middle element is greater than target:
+      - Target must be in the left half
+      - Move right pointer to one position before middle
+   d. If middle element is less than target:
+      - Target must be in the right half
+      - Move left pointer to one position after middle
+
+3. When loop ends (left > right):
+   - Left pointer is now at the correct insertion position
+   - Right pointer is at an element smaller than target (or -1 if target is smallest)
+   - Return left as the insertion index
 """
