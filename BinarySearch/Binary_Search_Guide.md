@@ -227,13 +227,13 @@ return left  # Last occurrence
 
 ## Problems
 
-| # | Problem | LeetCode | Time | Space | Approach | ⚠️ Special Attention |
-|---|---------|----------|------|-------|----------|----------------------|
-| 1 | **Binary Search** | [#704](https://leetcode.com/problems/binary-search/) | O(log n) | O(1) | Standard template: `mid = (left + right) // 2`. If `nums[mid] == target` → return. If `nums[mid] < target` → search right half. Else search left half. | **Use `mid = left + (right - left) // 2`** to avoid overflow in languages with fixed-size integers. |
-| 2 | **Search Insert Position** | [#35](https://leetcode.com/problems/search-insert-position/) | O(log n) | O(1) | Same as binary search, but when loop exits, `left` is the insertion position. | Return `left` at the end — it points to where target should be inserted. |
-| 3 | **First Bad Version** | [#278](https://leetcode.com/problems/first-bad-version/) | O(log n) | O(1) | Binary search on versions [1..n]. If `isBadVersion(mid)` → first bad is at mid or left. Else first bad is right. | Minimize API calls by using binary search. When `isBadVersion(mid)` is True, do `right = mid - 1` (not `right = mid`). |
-| 4 | **Search a 2D Matrix** | [#74](https://leetcode.com/problems/search-a-2d-matrix/) | O(log(m×n)) | O(1) | Treat 2D matrix as flattened 1D array. `row = mid // n`, `col = mid % n`. Standard binary search. | **Index conversion:** 1D → 2D coordinates. Total elements = `m × n`. |
-| 5 | **Single Element in Sorted Array** | [#540](https://leetcode.com/problems/single-element-in-a-sorted-array/) | O(log n) | O(1) | Exploit pair pattern: before single element, pairs start at even indices. Ensure `mid` is even. If `nums[mid] == nums[mid+1]`, search right; else search left. | **Ensure mid is even:** if `mid % 2 == 1`, decrement by 1. Pattern breaks at the single element. |
+| # | Problem | LeetCode | Time | Space | Condition | Why | Approach | ⚠️ Special Attention |
+|---|---------|----------|------|-------|-----------|-----|----------|----------------------|
+| 1 | **Binary Search** | [#704](https://leetcode.com/problems/binary-search/) | O(log n) | O(1) | `left <= right` | Known target | Standard template: `mid = (left + right) // 2`. If `nums[mid] == target` → return. If `nums[mid] < target` → search right half. Else search left half. | **Use `mid = left + (right - left) // 2`** to avoid overflow in languages with fixed-size integers. |
+| 2 | **Search Insert Position** | [#35](https://leetcode.com/problems/search-insert-position/) | O(log n) | O(1) | `left <= right` | Known target | Same as binary search, but when loop exits, `left` is the insertion position. | Return `left` at the end — it points to where target should be inserted. |
+| 3 | **First Bad Version** | [#278](https://leetcode.com/problems/first-bad-version/) | O(log n) | O(1) | `left < right` preferred (both work) | Find boundary | Binary search on versions [1..n]. If `isBadVersion(mid)` → `right = mid`. Else `left = mid + 1`. Return `left`. **Both `left < right` and `left <= right` work** - use `left < right` for consistency with boundary-finding pattern. | Minimize API calls by using binary search. `left < right` with `right = mid` is more intuitive for finding first occurrence. |
+| 4 | **Search a 2D Matrix** | [#74](https://leetcode.com/problems/search-a-2d-matrix/) | O(log(m×n)) | O(1) | `left <= right` | Known target | Treat 2D matrix as flattened 1D array. `row = mid // n`, `col = mid % n`. Standard binary search. | **Index conversion:** 1D → 2D coordinates. Total elements = `m × n`. |
+| 5 | **Single Element in Sorted Array** | [#540](https://leetcode.com/problems/single-element-in-a-sorted-array/) | O(log n) | O(1) | `left < right` | Find position | Exploit pair pattern: before single element, pairs start at even indices. Ensure `mid` is even. If `nums[mid] == nums[mid+1]`, search right; else search left. | **Ensure mid is even:** if `mid % 2 == 1`, decrement by 1. Pattern breaks at the single element. |
 
 ---
 
@@ -276,10 +276,10 @@ def binary_search(nums, target):
 
 ## Problems
 
-| # | Problem | LeetCode | Time | Space | Approach | ⚠️ Special Attention |
-|---|---------|----------|------|-------|----------|----------------------|
-| 1 | **Find First and Last Position** | [#34](https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/) | O(log n) | O(1) | **Two binary searches:**<br>① Find first: when `nums[mid] == target`, record and search left (`right = mid - 1`).<br>② Find last: when `nums[mid] == target`, record and search right (`left = mid + 1`). | **Key difference from standard:** Don't return immediately when found — keep searching to find boundary. |
-| 2 | **Search for a Range** | Same as #34 | O(log n) | O(1) | Same approach — find leftmost, then find rightmost. | Use a result variable to track the found index before narrowing search. |
+| # | Problem | LeetCode | Time | Space | Condition | Why | Approach | ⚠️ Special Attention |
+|---|---------|----------|------|-------|-----------|-----|----------|----------------------|
+| 1 | **Find First and Last Position** | [#34](https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/) | O(log n) | O(1) | `left <= right` (with result) or `left < right` | Known target, find boundaries | **Two binary searches:**<br>① Find first: when `nums[mid] == target`, record and search left (`right = mid - 1`).<br>② Find last: when `nums[mid] == target`, record and search right (`left = mid + 1`). | **Key difference from standard:** Don't return immediately when found — keep searching to find boundary. Both approaches work! |
+| 2 | **Search for a Range** | Same as #34 | O(log n) | O(1) | `left <= right` (with result) or `left < right` | Known target, find boundaries | Same approach — find leftmost, then find rightmost. | Use a result variable to track the found index before narrowing search. |
 
 ---
 
@@ -352,13 +352,13 @@ def find_last(nums, target):
 
 ## Problems
 
-| # | Problem | LeetCode | Time | Space | Approach | ⚠️ Special Attention |
-|---|---------|----------|------|-------|----------|----------------------|
-| 1 | **Search in Rotated Sorted Array** | [#33](https://leetcode.com/problems/search-in-rotated-sorted-array/) | O(log n) | O(1) | **Step 1:** Determine which half is sorted (`nums[mid] >= nums[left]` = left sorted).<br>**Step 2:** Check if target is in sorted half's range.<br>**Step 3:** If yes, search that half. Else search other half (which will be re-evaluated on next iteration). | **Why `>=` not `>`?** Use `>=` to handle edge case when `left == mid` (single element, trivially sorted).<br>**Why identify sorted half?** Binary search ONLY works on sorted data. We identify the sorted half to use range checking. We never directly search unsorted data - on next iteration, we re-check which half is sorted in the new range! |
-| 2 | **Search in Rotated Sorted Array II** | [#81](https://leetcode.com/problems/search-in-rotated-sorted-array-ii/) | O(log n) avg, O(n) worst | O(1) | Same as #33 but handles **duplicates**. If `nums[left] == nums[mid] == nums[right]`, can't determine sorted half → shrink both ends (`left++`, `right--`). | **Worst case O(n)** when all elements are duplicates. Must handle the ambiguous case specially. |
-| 3 | **Find Minimum in Rotated Sorted Array** | [#153](https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/) | O(log n) | O(1) | Compare `nums[mid]` with `nums[right]`. If `nums[mid] > nums[right]` → minimum is in right half. Else minimum is at mid or left. | **Compare with right, not left.** Minimum is at the rotation pivot. |
-| 4 | **Find Minimum in Rotated Sorted Array II** | [#154](https://leetcode.com/problems/find-minimum-in-rotated-sorted-array-ii/) | O(log n) avg, O(n) worst | O(1) | Same as #153 but if `nums[mid] == nums[right]` → can't determine which side → `right--`. | Duplicates make it ambiguous, must shrink search space carefully. |
-| 5 | **Peak Index in Mountain Array** | [#852](https://leetcode.com/problems/peak-index-in-a-mountain-array/) | O(log n) | O(1) | Mountain = increases then decreases. If `arr[mid] < arr[mid+1]` → peak is right. Else peak is at mid or left. | **Guaranteed one peak.** Compare `mid` with `mid+1` to determine direction. |
+| # | Problem | LeetCode | Time | Space | Condition | Why | Approach | ⚠️ Special Attention |
+|---|---------|----------|------|-------|-----------|-----|----------|----------------------|
+| 1 | **Search in Rotated Sorted Array** | [#33](https://leetcode.com/problems/search-in-rotated-sorted-array/) | O(log n) | O(1) | `left <= right` | Known target | **Step 1:** Determine which half is sorted (`nums[mid] >= nums[left]` = left sorted).<br>**Step 2:** Check if target is in sorted half's range.<br>**Step 3:** If yes, search that half. Else search other half (which will be re-evaluated on next iteration). | **Why `>=` not `>`?** Use `>=` to handle edge case when `left == mid` (single element, trivially sorted).<br>**Why identify sorted half?** Binary search ONLY works on sorted data. We identify the sorted half to use range checking. We never directly search unsorted data - on next iteration, we re-check which half is sorted in the new range! |
+| 2 | **Search in Rotated Sorted Array II** | [#81](https://leetcode.com/problems/search-in-rotated-sorted-array-ii/) | O(log n) avg, O(n) worst | O(1) | `left <= right` | Known target | Same as #33 but handles **duplicates**. If `nums[left] == nums[mid] == nums[right]`, can't determine sorted half → shrink both ends (`left++`, `right--`). | **Worst case O(n)** when all elements are duplicates. Must handle the ambiguous case specially. |
+| 3 | **Find Minimum in Rotated Sorted Array** | [#153](https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/) | O(log n) | O(1) | `left < right` | Find position | Compare `nums[mid]` with `nums[right]`. If `nums[mid] > nums[right]` → minimum is in right half. Else minimum is at mid or left. | **Compare with right, not left.** Minimum is at the rotation pivot. |
+| 4 | **Find Minimum in Rotated Sorted Array II** | [#154](https://leetcode.com/problems/find-minimum-in-rotated-sorted-array-ii/) | O(log n) avg, O(n) worst | O(1) | `left < right` | Find position | Same as #153 but if `nums[mid] == nums[right]` → can't determine which side → `right--`. | Duplicates make it ambiguous, must shrink search space carefully. |
+| 5 | **Peak Index in Mountain Array** | [#852](https://leetcode.com/problems/peak-index-in-a-mountain-array/) | O(log n) | O(1) | `left < right` | Find position | Mountain = increases then decreases. If `arr[mid] < arr[mid+1]` → peak is right. Else peak is at mid or left. | **Guaranteed one peak.** Compare `mid` with `mid+1` to determine direction. |
 
 ---
 
@@ -433,13 +433,13 @@ def search_rotated(nums, target):
 
 ## Problems
 
-| # | Problem | LeetCode | Time | Space | Approach | ⚠️ Special Attention |
-|---|---------|----------|------|-------|----------|----------------------|
-| 1 | **Koko Eating Bananas** | [#875](https://leetcode.com/problems/koko-eating-bananas/) | O(n log m) | O(1) | Binary search on eating speed [1..max(piles)]. For each speed `k`, calculate hours needed = `sum(ceil(pile/k))`. If hours ≤ h → try slower. Else try faster. | **Search space is the answer (speed), not the array.** For each mid, verify in O(n) by calculating total hours. |
-| 2 | **Capacity To Ship Packages Within D Days** | [#1011](https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/) | O(n log S) | O(1) | Binary search on capacity [max(weights)..sum(weights)]. For each capacity, simulate loading: count days needed. If days ≤ D → try smaller capacity. Else larger. | **Minimum capacity must be ≥ max(weights)** (can't split packages). Maximum is sum(weights) (ship all at once). |
-| 3 | **Split Array Largest Sum** | [#410](https://leetcode.com/problems/split-array-largest-sum/) | O(n log S) | O(1) | Binary search on max subarray sum [max(nums)..sum(nums)]. For each limit, count subarrays needed. If count ≤ k → try smaller limit. Else larger. | **Similar to package shipping.** Each subarray = partition. |
-| 4 | **Kth Missing Positive Number** | [#1539](https://leetcode.com/problems/kth-missing-positive-number/) | O(log n) | O(1) | Binary search on array indices. At index `i`, missing count = `arr[i] - (i + 1)`. Find largest index where missing < k. Answer = `left + k`. | **Not searching for a value in array, but using array to calculate missing count.** Formula: `arr[i] - (i+1)` gives missing numbers before index i. |
-| 5 | **Minimize Maximum** | Various | O(n log range) | O(1) | General pattern: binary search on the answer range. For each candidate answer, verify if it's achievable in O(n). Minimize the maximum or maximize the minimum. | **"Minimize the maximum" or "maximize the minimum"** are strong hints for binary search on answer. |
+| # | Problem | LeetCode | Time | Space | Condition | Why | Approach | ⚠️ Special Attention |
+|---|---------|----------|------|-------|-----------|-----|----------|----------------------|
+| 1 | **Koko Eating Bananas** | [#875](https://leetcode.com/problems/koko-eating-bananas/) | O(n log m) | O(1) | `left < right` | Find minimum speed | Binary search on eating speed [1..max(piles)]. For each speed `k`, calculate hours needed = `sum(ceil(pile/k))`. If hours ≤ h → try slower. Else try faster. | **Search space is the answer (speed), not the array.** For each mid, verify in O(n) by calculating total hours. |
+| 2 | **Capacity To Ship Packages Within D Days** | [#1011](https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/) | O(n log S) | O(1) | `left < right` | Find minimum capacity | Binary search on capacity [max(weights)..sum(weights)]. For each capacity, simulate loading: count days needed. If days ≤ D → try smaller capacity. Else larger. | **Minimum capacity must be ≥ max(weights)** (can't split packages). Maximum is sum(weights) (ship all at once). |
+| 3 | **Split Array Largest Sum** | [#410](https://leetcode.com/problems/split-array-largest-sum/) | O(n log S) | O(1) | `left < right` | Find minimum max sum | Binary search on max subarray sum [max(nums)..sum(nums)]. For each limit, count subarrays needed. If count ≤ k → try smaller limit. Else larger. | **Similar to package shipping.** Each subarray = partition. |
+| 4 | **Kth Missing Positive Number** | [#1539](https://leetcode.com/problems/kth-missing-positive-number/) | O(log n) | O(1) | `left < right` preferred (both work) | Find boundary | Binary search on array indices. At index `i`, missing count = `arr[i] - (i + 1)`. Find largest index where missing < k. Answer = `left + k`. | **Not searching for a value in array, but using array to calculate missing count.** Formula: `arr[i] - (i+1)` gives missing numbers before index i. Both approaches work but `left < right` is more consistent. |
+| 5 | **Minimize Maximum** | Various | O(n log range) | O(1) | `left < right` | Optimize value | General pattern: binary search on the answer range. For each candidate answer, verify if it's achievable in O(n). Minimize the maximum or maximize the minimum. | **"Minimize the maximum" or "maximize the minimum"** are strong hints for binary search on answer. |
 
 ---
 
