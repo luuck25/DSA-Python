@@ -8,6 +8,54 @@ class ListNode:
         self.next = next
 
 
+"""
+========================================
+UNDERSTANDING "GAP" IN TWO-POINTER TECHNIQUE
+========================================
+
+When we say "create a gap of n nodes between two pointers," 
+it means the DISTANCE between them is n, NOT that there are n nodes in between.
+
+EXAMPLE: Gap of 2
+-----------------
+Pointer positions:
+    [1] → [2] → [3] → [4] → [5]
+     ↑           ↑
+    slow        fast
+
+Distance = 2 (fast is 2 moves ahead of slow)
+Nodes between them = 1 (only node [2])
+
+To get from slow to fast:
+  1 → 2  (1 move)
+  2 → 3  (2 moves)  ← distance is 2
+
+CLARIFICATION:
+--------------
+"Gap of n" means:
+  ✓ Fast pointer is n STEPS ahead
+  ✓ Distance between pointers = n
+  ✗ NOT n nodes physically between them
+
+Visual for gap = 3:
+    [1] → [2] → [3] → [4] → [5]
+     ↑                 ↑
+    slow              fast
+    
+  Distance = 3 moves
+  Nodes between = 2 ([2] and [3])
+
+WHY THIS MATTERS:
+-----------------
+To remove nth node from end:
+  1. Move fast n steps ahead (creates gap of n)
+  2. Move both together until fast reaches end
+  3. slow will be EXACTLY 1 node before target
+
+The gap ensures correct positioning!
+"""
+
+
 class Solution:
     def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
         """

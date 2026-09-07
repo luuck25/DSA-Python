@@ -60,3 +60,42 @@ class Solution:
         prev_left.next = prev
 
         return dummy.next
+
+
+# Alternative Solution (using while loop with counter increment)
+class Solution2:
+    def reverseBetween(self, head: Optional[ListNode], left: int, right: int) -> Optional[ListNode]:
+        """
+        Alternative approach: Uses while loop with left counter increment
+        instead of pre-calculating iteration count.
+        
+        Same logic, different loop style:
+        - Checks left <= right condition each iteration
+        - Increments left counter as we reverse
+        - Includes defensive curr check
+        
+        Time: O(n) | Space: O(1)
+        """
+        dummy = ListNode(0, head)
+        before_left = dummy
+
+        # Walk to node before position `left`
+        for _ in range(left - 1):
+            before_left = before_left.next
+            
+        curr = before_left.next
+        prev = None
+
+        # Reverse nodes while left <= right
+        while left <= right and curr:
+            temp = curr.next
+            curr.next = prev
+            prev = curr
+            curr = temp
+            left += 1
+
+        # Reconnect the reversed portion
+        before_left.next.next = curr
+        before_left.next = prev
+
+        return dummy.next

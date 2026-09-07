@@ -62,4 +62,32 @@ class Solution:
         # Attach whichever list still has remaining nodes (or None if both exhausted)
         curr.next = list1 if list1 else list2
 
-        return dummy.next         
+        return dummy.next
+
+
+"""
+PSEUDOCODE (English):
+---------------------
+1. Create a dummy node to serve as the starting point
+2. Create a curr pointer that starts at dummy
+
+3. While both lists have nodes remaining:
+   a. Compare the values at the current heads of list1 and list2
+   b. Attach the smaller node to curr.next
+   c. Move the pointer of the list that was chosen forward
+   d. Move curr forward to the newly attached node
+
+4. After the loop, at least one list is exhausted:
+   - Attach the remaining nodes from whichever list still has elements
+   - (This is safe because the remaining portion is already sorted)
+
+5. Return dummy.next (the actual head of the merged list)
+
+WHY IT WORKS:
+- Both input lists are already sorted
+- We always pick the smaller of the two current heads
+- This maintains sorted order in the merged list
+- When one list runs out, the rest of the other list can be attached directly
+- Time: O(n + m) - visit each node once
+- Space: O(1) - only use pointers, no new nodes created
+"""         

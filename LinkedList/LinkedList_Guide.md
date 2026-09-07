@@ -103,6 +103,7 @@ curr.next = prev      # now safe to break the link
 |---|---------|----------|------|-------|----------|----------------------|
 | 1 | **Reverse Linked List** | [#206](https://leetcode.com/problems/reverse-linked-list/) | O(n) | O(1) | 3 pointers: save `nxt = curr.next`, reverse `curr.next = prev`, advance both. When `curr` is None, `prev` is new head. | No dummy needed — just return `prev`. |
 | 2 | **Reverse Linked List II** | [#92](https://leetcode.com/problems/reverse-linked-list-ii/) | O(n) | O(1) | Walk to node before `left` (`prev_left`). Reverse `right - left + 1` nodes. Reconnect: `prev_left.next.next = curr`, `prev_left.next = prev`. | **Dummy needed** — if `left=1`, head changes. `range(right - left + 1)` includes both endpoints. |
+| 3 | **Reverse Nodes in k-Group** | [#25](https://leetcode.com/problems/reverse-nodes-in-k-group/) | O(n) | O(1) | Repeatedly find kth node, reverse that block in place, reconnect previous tail to reversed head. Stop when fewer than k nodes remain. | Use `groupPrev`, `kth`, `groupNext` anchors to avoid link mistakes during reconnection. |
 
 ### When to Use Reversal
 - Reverse entire or partial list
@@ -118,11 +119,23 @@ curr.next = prev      # now safe to break the link
 | # | Problem | LeetCode | Time | Space | Approach | ⚠️ Special Attention |
 |---|---------|----------|------|-------|----------|----------------------|
 | 1 | **Merge Two Sorted Lists** | [#21](https://leetcode.com/problems/merge-two-sorted-lists/) | O(n+m) | O(1) | Dummy + curr. Compare heads, pick smaller, advance. `curr.next = list1 if list1 else list2` appends remainder. | Remaining portion is already sorted and ≥ last merged node — just link directly. |
+| 2 | **Merge k Sorted Lists** | [#23](https://leetcode.com/problems/merge-k-sorted-lists/) | O(N log k) | O(1) auxiliary | Merge lists in pairs (divide-and-conquer style) until one list remains. Each round halves number of lists. | Distinguish `N` (total nodes) vs `k` (number of lists). |
 
 ### When to Use Merge/Build
 - Merging sorted lists
 - Building a result list from two or more sources
 - Any problem where you construct a new list node by node
+
+### Related Reorder/Transform Pattern
+
+| # | Problem | LeetCode | Time | Space | Approach | ⚠️ Special Attention |
+|---|---------|----------|------|-------|----------|----------------------|
+| 1 | **Reorder List** | [#143](https://leetcode.com/problems/reorder-list/) | O(n) | O(1) | Find middle (slow/fast), reverse second half, then merge alternately from first and reversed second half. | Split list before reverse (`slow.next = None`) so merge does not create cycles. |
+
+### When to Use Reorder/Transform
+- Interleave front and back halves
+- Rewire list shape without creating/deleting nodes
+- Problems that combine split + reverse + merge
 
 ---
 
@@ -136,6 +149,7 @@ curr.next = prev      # now safe to break the link
 | 2 | **Middle of Linked List** | [#876](https://leetcode.com/problems/middle-of-linked-list/) | O(n) | O(1) | Slow (1 step), fast (2 steps). When fast reaches end, slow is at middle. | Even-length: returns second middle (`while fast and fast.next`). |
 | 3 | **Linked List Cycle** | [#141](https://leetcode.com/problems/linked-list-cycle/) | O(n) | O(1) | Slow (1 step), fast (2 steps). If they meet → cycle. | — |
 | 4 | **Linked List Cycle II** | [#142](https://leetcode.com/problems/linked-list-cycle-ii/) | O(n) | O(1) | Phase 1: detect cycle. Phase 2: reset slow to head, both move 1 step → meet at cycle start. | Floyd's algo: reset **slow** to head, NOT fast. |
+| 5 | **Find the Duplicate Number** | [#287](https://leetcode.com/problems/find-the-duplicate-number/) | O(n) | O(1) | Treat array values as next pointers and run Floyd cycle detection to find cycle entry (= duplicate). | Array problem, but same tortoise-hare cycle-entry logic as linked list cycle problems. |
 
 ### When to Use Two-Pointer Gap
 - Find nth from end in one pass
@@ -198,3 +212,33 @@ curr.next = prev      # now safe to break the link
 4. **Off-by-one in reversal range** → `range(right - left + 1)` for inclusive range
 5. **Moving `prev` on duplicates** → `prev` should only advance on confirmed unique nodes
 6. **Skipping dummy when head can change** → returning stale head
+
+---
+
+## Folder-to-Pattern Map (Current Project)
+
+### In-place Reversal
+- `LinkedList/In_Place_Reversal/ReverseLinkedList.py`
+- `LinkedList/In_Place_Reversal/ReverseLinkedListII.py`
+- `LinkedList/In_Place_Reversal/ReverseNodesinK-Group.py`
+
+### Merge / Build
+- `LinkedList/Merge_Two_LinkedList/Merge2linkedlist.py`
+- `LinkedList/Merge_Two_LinkedList/MergeKlists.py`
+
+### Skip / Remove (Sorted)
+- `LinkedList/In_Place_Reversal/RemoveDuplicatesSortedList.py`
+- `LinkedList/In_Place_Reversal/RemoveDuplicatesSortedListII.py`
+
+### Reordering / Partitioning
+- `LinkedList/Reordering_Partitioning/ReorderLinkedList.py`
+
+### Two-Pointer Gap / Floyd
+- `LinkedList/TwoPointer_Gap/RemoveNthFromEnd.py`
+- `LinkedList/TwoPointer_Gap/Floyd_Cycle_Detection/FindDuplicate.py`
+
+### Addition / Carry Simulation
+- `LinkedList/Addition_Of_Nums/AddTwoNum.py`
+
+### Hashmap + Linked List
+- `LinkedList/Hashmap_LinkedList/CopyListRandomPointer.py`
