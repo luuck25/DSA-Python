@@ -80,7 +80,7 @@ class Solution:
                 curr = tmp
 
             temp = groupPrev.next
-            groupPrev.next = kth
+            groupPrev.next = kth # connecting dummy to new head
             groupPrev = temp
 
         return dummy.next  

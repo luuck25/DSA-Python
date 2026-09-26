@@ -117,7 +117,9 @@ class Solution:
     # https://www.youtube.com/watch?v=gqQsbdTcey0
     # ---- Clean version (no comments) ----
     # The key to solving the Longest Valid Parentheses problem
-    #  efficiently is recognizing the usefulness of a stack for tracking unmatched parentheses 
+    #  
+    # efficiently is recognizing the usefulness of a stack for tracking unmatched parentheses 
+    
     # https://algomap.io/question-bank/longest-valid-parentheses
     def longestValidParentheses_clean(self, s: str) -> int:
         stack = [-1]
