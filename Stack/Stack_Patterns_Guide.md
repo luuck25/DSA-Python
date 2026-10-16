@@ -439,17 +439,17 @@ This table follows the same format as the Linked List guide: problem name, LeetC
 
 | # | Problem | LeetCode | Time | Space | Approach | ⚠️ Special Attention |
 |---|---------|----------|------|-------|----------|----------------------|
-| 1 | **Valid Parentheses** | [#20](https://leetcode.com/problems/valid-parentheses/) | O(n) | O(n) | Push opening brackets; pop only when the closing bracket matches the stack top. | Check both mismatch and leftover opening brackets. |
-| 2 | **Minimum Add to Make Parentheses Valid** | [#921](https://leetcode.com/problems/minimum-add-to-make-parentheses-valid/) | O(n) | O(n) for Solution1; O(1) for Solution2 | **Solution1 (stack):** Store unmatched parentheses and return the stack size. **Solution2 (counter):** Track unmatched opening brackets and count closing brackets that need an inserted opener. | In Solution2, do not let the opening count become negative; count that unmatched `)` as an insertion. |
+| 1 | **Valid Parentheses** | [#20](https://leetcode.com/problems/valid-parentheses/) | O(n) | O(n) | Push opening brackets; pop only when the closing bracket matches the stack top. | — |
+| 2 | **Minimum Add to Make Parentheses Valid** | [#921](https://leetcode.com/problems/minimum-add-to-make-parentheses-valid/) | O(n) | O(n) for Solution1; O(1) for Solution2 | **Solution1 (stack):** Store unmatched parentheses and return the stack size. **Solution2 (counter):** Track unmatched opening brackets and count closing brackets that need an inserted opener. | — |
 | 3 | **Minimum Remove to Make Valid Parentheses** | [#1249](https://leetcode.com/problems/minimum-remove-to-make-valid-parentheses/) | O(n) | O(n) | Store indices of unmatched parentheses, then rebuild the string without those indices. | Store indices, not just characters, to remove the correct duplicates. |
-| 4 | **Minimum Number of Swaps to Make the String Balanced** | [#1963](https://leetcode.com/problems/minimum-number-of-swaps-to-make-the-string-balanced/) | O(n) | O(1) | Track bracket balance and greedily fix each invalid prefix with one swap. | The input must have equal counts of `[` and `]`. |
+| 4 | **Minimum Number of Swaps to Make the String Balanced** | [#1963](https://leetcode.com/problems/minimum-number-of-swaps-to-make-the-string-balanced/) | O(n) | O(1) | Greedily match each `]` with an earlier `[`; let `k` be the unmatched `[` count. Return `ceil(k / 2)`, or `(k + 1) // 2`. | Ignore unmatched `]` while counting: with equal totals, their count is implied by unmatched `[`. Swaps may exchange any two positions (not only adjacent ones). |
 | 5 | **Longest Valid Parentheses** | [#32](https://leetcode.com/problems/longest-valid-parentheses/) | O(n) | O(n) | Store indices of unmatched boundaries; calculate length when a closing bracket finds a match. | Initialize the stack with `-1` as the boundary before the current segment. |
 
 ### Monotonic Stack
 
 | # | Problem | LeetCode | Time | Space | Approach | ⚠️ Special Attention |
 |---|---------|----------|------|-------|----------|----------------------|
-| 1 | **Next Greater Element I** | [#496](https://leetcode.com/problems/next-greater-element-i/) | O(n + m) | O(n) | Scan the reference array with a decreasing stack and map each popped value to its next greater value. | Resolve answers from `nums2` before looking up values from `nums1`. |
+| 1 | **Next Greater Element I** | [#496](https://leetcode.com/problems/next-greater-element-i/) | O(n + m) | O(n) | Scan reference array `nums2` with a decreasing stack; when a larger value appears, map each popped value to that next-greater value. Then answer each `nums1` query with a map lookup, defaulting to `-1`. | Build the map from `nums2` before looking up values from `nums1`. |
 | 2 | **Next Greater Element II** | [#503](https://leetcode.com/problems/next-greater-element-ii/) | O(n) | O(n) | Simulate two passes with `i % n` to handle circular wraparound. | Push indices only during the first pass. |
 | 3 | **Daily Temperatures** | [#739](https://leetcode.com/problems/daily-temperatures/) | O(n) | O(n) | Keep unresolved day indices in a decreasing stack and assign distances when a warmer day appears. | Store indices because the answer is a number of days. |
 | 4 | **Remove K Digits** | [#402](https://leetcode.com/problems/remove-k-digits/) | O(n) | O(n) | Maintain increasing digits; remove larger preceding digits while removals remain. | Remove trailing digits when the number is already increasing, then strip leading zeroes. |
@@ -462,7 +462,7 @@ This table follows the same format as the Linked List guide: problem name, LeetC
 | # | Problem | LeetCode | Time | Space | Approach | ⚠️ Special Attention |
 |---|---------|----------|------|-------|----------|----------------------|
 | 1 | **Evaluate Reverse Polish Notation** | [#150](https://leetcode.com/problems/evaluate-reverse-polish-notation/) | O(n) | O(n) | Push operands; for each operator pop the right operand first, then the left operand. | Operand order matters for subtraction and division; truncate division toward zero. |
-| 2 | **Decode String** | [#394](https://leetcode.com/problems/decode-string/) | O(L) | O(L) | Push the outer string and repeat count at `[`, then restore and repeat the nested string at `]`. | Build multi-digit repeat counts before processing `[`. `L` is the decoded output length. |
+| 2 | **Decode String** | [#394](https://leetcode.com/problems/decode-string/) | O(n * m) | O(n + m) | Push the outer string and repeat count at `[`, then restore and repeat the nested string at `]`. | `n` is encoded input length; `m` is decoded output length. Up to O(n) closing brackets can each rebuild/copy up to O(m) characters, giving the conservative O(n * m) bound. Build multi-digit repeat counts before processing `[`. |
 | 3 | **Asteroid Collision** | [#735](https://leetcode.com/problems/asteroid-collision/) | O(n) | O(n) | Keep surviving asteroids in a stack and repeatedly resolve collisions with a positive top and negative incoming asteroid. | One asteroid can destroy several previous asteroids, so collision handling needs a `while` loop. |
 
 ### Stack Design

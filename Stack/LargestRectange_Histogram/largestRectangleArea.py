@@ -123,6 +123,8 @@ def largestRectangleArea(heights: List[int]) -> int:
     return max_area
 
 
+
+
 # ---- Clean version (no comments) ----
 def largestRectangleArea_clean(heights: List[int]) -> int:
     stack = []

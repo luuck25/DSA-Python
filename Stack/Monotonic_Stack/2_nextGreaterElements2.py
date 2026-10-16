@@ -35,6 +35,7 @@ Key Trick — Loop through the array TWICE using modulo:
     The second pass is just for POPPING — finding next greater elements
     that need to wrap around.
 
+
 Step-by-step with [1, 2, 1]:
 ------------------------------
     result = [-1, -1, -1], stack = []
