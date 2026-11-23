@@ -34,7 +34,7 @@ class Solution:
 
         fast moves if no match
         
-        so speed of fast is more than slow 
+        so speed of fast is more than slow
         
         
         """

@@ -1,0 +1,78 @@
+"""
+Top K Frequent Elements
+
+Description:
+Given an integer list `nums` and an integer `k`, return the `k` most frequent
+elements. The result can be returned in any order.
+
+Approach:
+1. Use `Counter(nums)` to count the frequency of each distinct number.
+2. Iterate over the distinct numbers and push each (frequency, number) pair
+    into a min-heap.
+3. If the heap grows beyond `k`, remove its root, which has the lowest
+    frequency among the retained candidates.
+4. After all distinct numbers are processed, the heap contains the `k` most
+    frequent numbers. Extract those numbers for the result.
+
+Let:
+- `n = len(nums)`
+- `m` = number of distinct elements
+- `k` = number of elements to return
+
+Time Complexity:
+1. `Counter(nums)` counts all elements: O(n).
+2. Iterate over the `m` distinct elements; each heap push and possible pop
+    costs O(log k), since the heap is kept at size at most k.
+3. Building the result takes O(k).
+Overall: O(n + m log k + k), commonly written as O(n + m log k).
+Since m <= n, it is often simplified to O(n log k).
+
+Space Complexity:
+- `Counter` stores up to m distinct elements: O(m).
+- The heap stores at most k elements: O(k).
+- The returned list stores k elements: O(k).
+Total, including the result: O(m + k). Since k <= m, this simplifies to
+O(m), or O(n). The input list is not counted as extra space.
+"""
+
+import heapq
+from collections import Counter
+from typing import List
+
+
+class Solution:
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+
+        
+        mp = Counter(nums)
+        heap =[]
+        for k1,v in mp.items():
+
+            heapq.heappush(heap,(v,k1))
+            
+            if len(heap) > k:
+                
+                heapq.heappop(heap)
+
+        return [j for i, j in heap]
+
+
+"""
+Pseudocode:
+-----------
+function topKFrequent(nums, k):
+    frequency_map = count occurrences of every number in nums
+    heap = empty min-heap
+
+    for each (number, frequency) in frequency_map:
+        push (frequency, number) into heap
+        if heap size > k:
+            remove the lowest-frequency entry from heap
+
+    return the numbers from all entries in heap
+"""
+
+        
+        
+
+
